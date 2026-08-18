@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>El Desafío del Puente Matemático</title>
+
+    <style>
+        :root {
+            --rosa: #ff0a78;
+            --rosa-claro: #ff4d9d;
+            --verde: #00f5a0;
+            --verde-oscuro: #004f43;
+            --negro: #07090d;
+            --gris: #151922;
+            --gris-claro: #252b38;
+            --blanco: #f5f7fa;
+            --amarillo: #ffe45c;
+            --rojo: #ff3b4f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--blanco);
+            background:
+                radial-gradient(
+                    circle at top,
+                    rgba(255, 10, 120, 0.17),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    145deg,
+                    #05070a,
+                    #10141c 55%,
+                    #05070a
+                );
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            opacity: 0.22;
+            background-image:
+                linear-gradient(
+                    rgba(255, 255, 255, 0.035) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.035) 1px,
+                    transparent 1px
+                );
+            background-size: 45px 45px;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(0, 245, 160, 0.1),
+                    transparent 20%
+                ),
+                radial-gradient(
+                    circle at 85% 70%,
+                    rgba(255, 10, 120, 0.12),
+                    transparent 25%
+                );
+        }
+
+        .floating-shapes {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.12;
+            filter: drop-shadow(0 0 14px currentColor);
+            animation: floating 10s ease-in-out infinite;
+        }
+
+        .circle {
+            width: 90px;
+            height: 90px;
+            top: 12%;
+            left: 5%;
+            border: 8px solid var(--rosa);
+            border-radius: 50%;
+        }
+
+        .triangle {
+            top: 35%;
+            right: 4%;
+            width: 0;
+            height: 0;
+            border-left: 55px solid transparent;
+            border-right: 55px solid transparent;
+            border-bottom: 95px solid var(--verde);
+            animation-delay: -3s;
+        }
+
+        .triangle::after {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: -37px;
+            width: 0;
+            height: 0;
+            border-left: 37px solid transparent;
+            border-right: 37px solid transparent;
+            border-bottom: 64px solid #0c1118;
+        }
+
+        .square {
+            width: 75px;
+            height: 75px;
+            bottom: 12%;
+            left: 8%;
+            border: 8px solid var(--verde);
+            animation-delay: -5s;
+        }
+
+        .small-circle {
+            width: 45px;
+            height: 45px;
+            right: 12%;
+            bottom: 10%;
+            border: 5px solid var(--rosa);
+            border-radius: 50%;
+            animation-delay: -7s;
+        }
+
+        @keyframes floating {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-35px) rotate(12deg);
+            }
+        }
+
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -180px;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: rgba(255, 10, 120, 0.08);
+            filter: blur(80px);
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 950px;
+        }
+
+        .symbol-line {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .symbol-circle,
+        .symbol-square {
+            width: 48px;
+            height: 48px;
+            border: 5px solid var(--rosa);
+            filter: drop-shadow(0 0 10px rgba(255, 10, 120, 0.8));
+        }
+
+        .symbol-circle {
+            border-radius: 50%;
+        }
+
+        .symbol-square {
+            border-color: var(--verde);
+            filter: drop-shadow(0 0 10px rgba(0, 245, 160, 0.8));
+        }
+
+        .symbol-triangle {
+            width: 0;
+            height: 0;
+            border-left: 27px solid transparent;
+            border-right: 27px solid transparent;
+            border-bottom: 48px solid var(--rosa);
+            filter: drop-shadow(0 0 10px rgba(255, 10, 120, 0.8));
+        }
+
+        .symbol-triangle::after {
+            content: "";
+            position: absolute;
+            transform: translate(-18px, 12px);
+            width: 0;
+            height: 0;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-bottom: 31px solid #0a0d12;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 9px 20px;
+            border: 1px solid var(--verde);
+            border-radius: 999px;
+            color: var(--verde);
+            background: rgba(0, 245, 160, 0.08);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(0, 245, 160, 0.12);
+        }
+
+        h1 {
+            margin-bottom: 22px;
+            font-size: clamp(2.7rem, 8vw, 6.3rem);
+            line-height: 0.95;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+            text-shadow:
+                0 0 10px rgba(255, 10, 120, 0.5),
+                0 0 35px rgba(255, 10, 120, 0.25);
+        }
+
+        h1 span {
+            display: block;
+            color: var(--rosa);
+        }
+
+        .hero-description {
+            max-width: 780px;
+            margin: 0 auto 35px;
+            color: #cbd1dc;
+            font-size: 1.2rem;
+            line-height: 1.75;
+        }
+
+        .hero-description strong {
+            color: var(--amarillo);
+        }
+
+        .start-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 17px 30px;
+            border: 2px solid var(--rosa);
+            border-radius: 7px;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                var(--rosa),
+                #bd0057
+            );
+            box-shadow:
+                0 0 25px rgba(255, 10, 120, 0.35),
+                inset 0 0 15px rgba(255, 255, 255, 0.08);
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: 0.3s ease;
+        }
+
+        .start-button:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 0 40px rgba(255, 10, 120, 0.6);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #b7bdc8;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: bounce 1.8s infinite;
+        }
+
+        .scroll-indicator::after {
+            content: "↓";
+            display: block;
+            margin-top: 8px;
+            color: var(--rosa);
+            font-size: 1.7rem;
+        }
+
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        .container {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 85px 0;
+        }
+
+        .section-title {
+            margin-bottom: 15px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .section-title span {
+            color: var(--rosa);
+        }
+
+        .section-subtitle {
+            max-width: 750px;
+            margin: 0 auto 50px;
+            color: #aeb6c5;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .rule-card {
+            position: relative;
+            min-height: 270px;
+            overflow: hidden;
+            padding: 30px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 14px;
+            background: rgba(20, 25, 34, 0.8);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(12px);
+            transition: 0.35s ease;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 10, 120, 0.55);
+            box-shadow:
+                0 20px 55px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(255, 10, 120, 0.12);
+        }
+
+        .rule-card::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 120px;
+            height: 120px;
+            border: 18px solid rgba(255, 10, 120, 0.08);
+            border-radius: 50%;
+        }
+
+        .rule-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            margin-bottom: 24px;
+            border-radius: 50%;
+            color: #04130d;
+            background: var(--verde);
+            box-shadow: 0 0 20px rgba(0, 245, 160, 0.35);
+            font-size: 1.35rem;
+            font-weight: 900;
+        }
+
+        .rule-card:nth-child(even) .rule-number {
+            color: white;
+            background: var(--rosa);
+            box-shadow: 0 0 20px rgba(255, 10, 120, 0.35);
+        }
+
+        .rule-card h3 {
+            margin-bottom: 13px;
+            font-size: 1.25rem;
+        }
+
+        .rule-card p {
+            color: #b9c0cd;
+            line-height: 1.65;
+        }
+
+        .challenge-box {
+            position: relative;
+            overflow: hidden;
+            margin-top: 45px;
+            padding: 35px;
+            border-left: 5px solid var(--amarillo);
+            border-radius: 10px;
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(255, 228, 92, 0.08),
+                    rgba(255, 10, 120, 0.05)
+                );
+        }
+
+        .challenge-box::after {
+            content: "!";
+            position: absolute;
+            right: 30px;
+            top: -25px;
+            color: rgba(255, 228, 92, 0.08);
+            font-size: 10rem;
+            font-weight: 900;
+        }
+
+        .challenge-box h3 {
+            margin-bottom: 12px;
+            color: var(--amarillo);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .challenge-box p {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            color: #d4d9e2;
+            line-height: 1.75;
+        }
+
+        .activity-section {
+            background:
+                linear-gradient(
+                    rgba(7, 9, 13, 0.88),
+                    rgba(7, 9, 13, 0.95)
+                ),
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(255, 255, 255, 0.02) 0,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    transparent 2px,
+                    transparent 12px
+                );
+        }
+
+        .activity-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .panel {
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            background: rgba(15, 19, 27, 0.94);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.38);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(
+                90deg,
+                rgba(255, 10, 120, 0.16),
+                rgba(0, 245, 160, 0.07)
+            );
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .panel-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--rosa);
+            border-radius: 50%;
+            color: var(--rosa);
+            font-weight: 900;
+        }
+
+        .panel-title h3 {
+            font-size: 1.15rem;
+            text-transform: uppercase;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--verde);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--verde);
+            box-shadow: 0 0 10px var(--verde);
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.25;
+            }
+        }
+
+        .iframe-wrapper {
+            position: relative;
+            width: 100%;
+            background: #fff;
+        }
+
+        .geogebra-wrapper {
+            min-height: 520px;
+        }
+
+        .geogebra-wrapper iframe {
+            display: block;
+            width: 100%;
+            height: 520px;
+            border: 0;
+        }
+
+        .form-wrapper {
+            min-height: 850px;
+        }
+
+        .form-wrapper iframe {
+            display: block;
+            width: 100%;
+            height: 850px;
+            border: 0;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-top: 45px;
+        }
+
+        .step {
+            padding: 25px;
+            border-top: 3px solid var(--rosa);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.035);
+        }
+
+        .step:nth-child(2) {
+            border-color: var(--verde);
+        }
+
+        .step:nth-child(3) {
+            border-color: var(--amarillo);
+        }
+
+        .step strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--rosa-claro);
+            font-size: 1.05rem;
+            text-transform: uppercase;
+        }
+
+        .step:nth-child(2) strong {
+            color: var(--verde);
+        }
+
+        .step:nth-child(3) strong {
+            color: var(--amarillo);
+        }
+
+        .step p {
+            color: #b8c0ce;
+            line-height: 1.6;
+        }
+
+        .final-message {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .final-message h2 {
+            margin-bottom: 18px;
+            font-size: clamp(2rem, 5vw, 4rem);
+            text-transform: uppercase;
+        }
+
+        .final-message h2 span {
+            color: var(--verde);
+        }
+
+        .final-message p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #afb7c5;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        footer {
+            padding: 28px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: #8992a2;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition:
+                opacity 0.8s ease,
+                transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1000px) {
+            .rules-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .hero {
+                min-height: 820px;
+                padding-top: 70px;
+            }
+
+            h1 {
+                letter-spacing: -1px;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .rules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 65px 0;
+            }
+
+            .panel-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .geogebra-wrapper,
+            .geogebra-wrapper iframe {
+                min-height: 620px;
+                height: 620px;
+            }
+
+            .form-wrapper,
+            .form-wrapper iframe {
+                min-height: 900px;
+                height: 900px;
+            }
+
+            .challenge-box {
+                padding: 28px 24px;
+            }
+
+            .symbol-circle,
+            .symbol-square {
+                width: 38px;
+                height: 38px;
+            }
+
+            .symbol-triangle {
+                border-left-width: 22px;
+                border-right-width: 22px;
+                border-bottom-width: 39px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="floating-shapes" aria-hidden="true">
+        <div class="shape circle"></div>
+        <div class="shape triangle"></div>
+        <div class="shape square"></div>
+        <div class="shape small-circle"></div>
+    </div>
+
+    <header class="hero">
+        <div class="hero-content">
+
+            <div class="symbol-line" aria-hidden="true">
+                <div class="symbol-circle"></div>
+                <div class="symbol-triangle"></div>
+                <div class="symbol-square"></div>
+            </div>
+
+            <div class="badge">
+                Desafío matemático
+            </div>
+
+            <h1>
+                El desafío del
+                <span>puente matemático</span>
+            </h1>
+
+            <p class="hero-description">
+                Los participantes necesitan cruzar de un extremo del gráfico
+                al otro. Tu misión será <strong>diseñar un puente</strong>,
+                analizar sus figuras y calcular correctamente el
+                <strong>área total construida</strong>.
+            </p>
+
+            <a href="#reglas" class="start-button">
+                Iniciar el desafío
+                <span>▶</span>
+            </a>
+        </div>
+
+        <div class="scroll-indicator">
+            Sigue las instrucciones
+        </div>
+    </header>
+
+    <main>
+
+        <section class="section" id="reglas">
+            <div class="container">
+
+                <h2 class="section-title reveal">
+                    Reglas del <span>juego</span>
+                </h2>
+
+                <p class="section-subtitle reveal">
+                    Lee cuidadosamente cada instrucción antes de ingresar a la
+                    zona de construcción. La precisión matemática determinará
+                    si el puente es seguro.
+                </p>
+
+                <div class="rules-grid">
+
+                    <article class="rule-card reveal">
+                        <div class="rule-number">01</div>
+
+                        <h3>Observa el escenario</h3>
+
+                        <p>
+                            Analiza la cuadrícula, sus dimensiones y el espacio
+                            disponible entre ambos extremos del recorrido.
+                        </p>
+                    </article>
+
+                    <article class="rule-card reveal">
+                        <div class="rule-number">02</div>
+
+                        <h3>Construye el puente</h3>
+
+                        <p>
+                            Idea una estructura formada por figuras geométricas
+                            que permita atravesar el gráfico de un lado al otro.
+                        </p>
+                    </article>
+
+                    <article class="rule-card reveal">
+                        <div class="rule-number">03</div>
+
+                        <h3>Calcula el área</h3>
+
+                        <p>
+                            Identifica las figuras utilizadas, aplica sus
+                            fórmulas y determina el área total del puente.
+                        </p>
+                    </article>
+
+                    <article class="rule-card reveal">
+                        <div class="rule-number">04</div>
+
+                        <h3>Registra el resultado</h3>
+
+                        <p>
+                            Ingresa en el formulario el valor obtenido y
+                            verifica que la unidad de medida sea correcta.
+                        </p>
+                    </article>
+
+                </div>
+
+                <div class="challenge-box reveal">
+                    <h3>Advertencia del desafío</h3>
+
+                    <p>
+                        No registres una respuesta sin comprobar primero tus
+                        cálculos. Divide el puente en figuras conocidas,
+                        calcula cada área por separado y suma los resultados.
+                        Recuerda revisar si existen espacios vacíos o figuras
+                        superpuestas.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section activity-section" id="actividad">
+            <div class="container">
+
+                <h2 class="section-title reveal">
+                    Zona de <span>construcción</span>
+                </h2>
+
+                <p class="section-subtitle reveal">
+                    Interactúa con la cuadrícula de GeoGebra. Diseña tu puente,
+                    observa las medidas y realiza los cálculos necesarios.
+                </p>
+
+                <div class="activity-layout">
+
+                    <div class="panel reveal">
+
+                        <div class="panel-header">
+
+                            <div class="panel-title">
+                                <div class="panel-icon">○</div>
+
+                                <div>
+                                    <h3>Actividad interactiva</h3>
+                                </div>
+                            </div>
+
+                            <div class="status">
+                                <span class="status-dot"></span>
+                                Simulación activa
+                            </div>
+
+                        </div>
+
+                        <div class="iframe-wrapper geogebra-wrapper">
+
+                            <iframe
+                                scrolling="no"
+                                title="Area Fun Using a Grid"
+                                src="https://www.geogebra.org/material/iframe/id/vvarvmda/width/800/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false"
+                                allowfullscreen
+                                loading="lazy">
+                            </iframe>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="steps">
+
+                    <div class="step reveal">
+                        <strong>Paso 1</strong>
+
+                        <p>
+                            Construye una figura que represente un puente capaz
+                            de conectar los dos extremos de la cuadrícula.
+                        </p>
+                    </div>
+
+                    <div class="step reveal">
+                        <strong>Paso 2</strong>
+
+                        <p>
+                            Separa la construcción en cuadrados, rectángulos,
+                            triángulos u otras figuras que puedas calcular.
+                        </p>
+                    </div>
+
+                    <div class="step reveal">
+                        <strong>Paso 3</strong>
+
+                        <p>
+                            Suma las áreas parciales y conserva el resultado
+                            para registrarlo en el formulario.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section" id="respuesta">
+            <div class="container">
+
+                <h2 class="section-title reveal">
+                    Registra tu <span>respuesta</span>
+                </h2>
+
+                <p class="section-subtitle reveal">
+                    Cuando estés seguro del área calculada, completa el
+                    formulario. Revisa cuidadosamente tus datos antes de
+                    enviarlos.
+                </p>
+
+                <div class="panel reveal">
+
+                    <div class="panel-header">
+
+                        <div class="panel-title">
+                            <div class="panel-icon">□</div>
+
+                            <div>
+                                <h3>Formulario de resultados</h3>
+                            </div>
+                        </div>
+
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Registro habilitado
+                        </div>
+
+                    </div>
+
+                    <div class="iframe-wrapper form-wrapper">
+
+                        <iframe
+                            src="https://docs.google.com/forms/d/e/1FAIpQLScTfR-aNGim_rrIBl28k--Ve2vv55ftKaPEzLY_S15hcZm5Ug/viewform?embedded=true"
+                            title="Formulario de resultados del puente matemático"
+                            frameborder="0"
+                            marginheight="0"
+                            marginwidth="0"
+                            loading="lazy">
+                            Cargando formulario…
+                        </iframe>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="final-message">
+            <div class="container reveal">
+
+                <h2>
+                    ¿Tu puente es <span>seguro?</span>
+                </h2>
+
+                <p>
+                    En matemáticas, cada medida cuenta. Comprueba tus fórmulas,
+                    revisa las unidades y asegúrate de que el área obtenida
+                    corresponde exactamente con la construcción realizada.
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        Actividad educativa de cálculo de áreas · Puente matemático
+    </footer>
+
+    <script>
+        const elements = document.querySelectorAll(".reveal");
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.12
+            }
+        );
+
+        elements.forEach((element) => {
+            observer.observe(element);
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const destination = document.querySelector(
+                    link.getAttribute("href")
+                );
+
+                if (destination) {
+                    event.preventDefault();
+
+                    destination.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
