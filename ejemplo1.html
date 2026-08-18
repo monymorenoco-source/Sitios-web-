@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio Virtual: Recta Numérica y Temperatura 🌡️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --hot-orange: #ff4500;
+      --hot-yellow: #ffb700;
+      --cold-blue: #00d2ff;
+      --deep-blue: #0a192f;
+      --glass-bg: rgba(10, 25, 47, 0.75);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      /* Fondo dividido igual que la imagen: Fuego/Sol a la izq, Azul/Cielo a la der */
+      background: linear-gradient(
+        110deg,
+        #d00000 0%,
+        #ff4500 25%,
+        #ff9e00 45%,
+        #061a33 55%,
+        #0052cc 78%,
+        #00a6ff 100%
+      );
+      background-attachment: fixed;
+    }
+
+    /* Resplandor del Sol en la esquina superior izquierda */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -100px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 255, 200, 0.9) 0%, rgba(255, 140, 0, 0.6) 30%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: sunGlow 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes sunGlow {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.15); opacity: 1; }
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 30px 20px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Termómetro decorativo central en el título */
+    .thermometer-icon {
+      display: inline-block;
+      width: 24px;
+      height: 70px;
+      background: #ffffff;
+      border-radius: 12px;
+      position: relative;
+      border: 3px solid #333;
+      margin-bottom: 10px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    .thermometer-icon::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 45px;
+      background: linear-gradient(to top, #ff0000 60%, #00d2ff 100%);
+      border-radius: 6px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      margin-bottom: 8px;
+    }
+
+    h1 span.hot {
+      color: #ffe600;
+      text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+    }
+
+    h1 span.cold {
+      color: #80e5ff;
+      text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: #f1f5f9;
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 10px 20px;
+      border-radius: 30px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Layout Principal de 2 Columnas */
+    .main-wrapper {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+      max-width: 1600px;
+      margin: 25px auto;
+      padding: 0 20px 40px;
+    }
+
+    @media (min-width: 1050px) {
+      .main-wrapper {
+        grid-template-columns: 1.25fr 0.75fr;
+      }
+    }
+
+    /* Tarjetas estilo Cristal (Glassmorphic) */
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Tarjeta del Simulador (Lado Cálido) */
+    .card-phet {
+      border: 2px solid rgba(255, 140, 0, 0.5);
+      box-shadow: 0 0 25px rgba(255, 69, 0, 0.25);
+    }
+
+    /* Tarjeta del Formulario (Lado Frío) */
+    .card-form {
+      border: 2px solid rgba(0, 210, 255, 0.5);
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.25);
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .card-phet .card-title {
+      color: var(--hot-yellow);
+    }
+
+    .card-form .card-title {
+      color: var(--cold-blue);
+    }
+
+    /* Contenedor Adaptativo PhET */
+    .phet-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 72%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .phet-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Contenedor Google Forms */
+    .form-container {
+      width: 100%;
+      height: 600px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .form-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #cbd5e1;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="thermometer-icon"></div>
+    <h1><span class="hot">CÁLIDO</span> &amp; <span class="cold">FRÍO</span>: RECTA NUMÉRICA</h1>
+    <p class="subtitle">Mide las distancias y temperaturas en el simulador interactivo y registra tus hallazgos en el formulario.</p>
+  </header>
+
+  <main class="main-wrapper">
+    
+    <!-- LADO IZQUIERDO: SIMULADOR PHET (TEMA CÁLIDO) -->
+    <section class="card card-phet">
+      <h2 class="card-title">
+        <span>☀️</span> 1. Práctica en el Simulador PhET
+      </h2>
+      <div class="phet-container">
+        <iframe 
+          src="https://phet.colorado.edu/sims/html/number-line-distance/latest/number-line-distance_en.html" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <!-- LADO DERECHO: GOOGLE FORMS (TEMA FRÍO) -->
+    <section class="card card-form">
+      <h2 class="card-title">
+        <span>❄️</span> 2. Registro de Distancias
+      </h2>
+      <div class="form-container">
+        <iframe 
+          src="https://docs.google.com/forms/d/e/1FAIpQLSdIVATG6T7oRaJICH_Ps-8O0FvvTfqGWzqbWyQa1hOfzUIxsA/viewform?embedded=true">
+          Cargando…
+        </iframe>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Actividad Académica de Matemáticas y Física &bull; Medición de Distancias en la Recta Numérica</p>
+  </footer>
+
+</body>
+</html>
