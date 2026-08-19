@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Olimpiadas del Movimiento 2026</title>
+
+    <style>
+        /* =====================================================
+           CONFIGURACIÓN GENERAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #07111f;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* =====================================================
+           FONDO ANIMADO
+        ===================================================== */
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.15), transparent 65%);
+            top: -200px;
+            left: -200px;
+            z-index: -1;
+            animation: movimientoFondo 8s infinite alternate;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 180, 255, 0.15), transparent 65%);
+            bottom: -200px;
+            right: -200px;
+            z-index: -1;
+            animation: movimientoFondo 10s infinite alternate-reverse;
+        }
+
+        @keyframes movimientoFondo {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(100px, 70px);
+            }
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 15px 7%;
+
+            background: rgba(3, 12, 25, 0.88);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffd43b;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffd43b;
+        }
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            padding: 120px 20px 80px;
+
+            background:
+                linear-gradient(rgba(4,12,25,0.65), rgba(4,12,25,0.95)),
+                radial-gradient(circle at center, #12365a, #07111f 70%);
+        }
+
+        .anillos {
+            font-size: 5rem;
+            letter-spacing: 10px;
+            margin-bottom: 25px;
+
+            animation: flotando 3s ease-in-out infinite;
+        }
+
+        @keyframes flotando {
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            text-transform: uppercase;
+            font-weight: 900;
+
+            background: linear-gradient(
+                90deg,
+                #ffd43b,
+                #ffffff,
+                #00c6ff,
+                #ffd43b
+            );
+
+            background-size: 300%;
+
+            -webkit-background-clip: text;
+            color: transparent;
+
+            animation: brillo 5s linear infinite;
+        }
+
+        @keyframes brillo {
+            0% {
+                background-position: 0%;
+            }
+
+            100% {
+                background-position: 300%;
+            }
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: 25px auto;
+
+            font-size: 1.25rem;
+            line-height: 1.7;
+
+            color: #dbe8f5;
+        }
+
+        .boton {
+            display: inline-block;
+
+            padding: 16px 35px;
+
+            border-radius: 50px;
+
+            background: linear-gradient(
+                135deg,
+                #ffd43b,
+                #ff9f1c
+            );
+
+            color: #07111f;
+
+            text-decoration: none;
+            font-weight: 900;
+
+            box-shadow: 0 10px 30px rgba(255,193,7,0.25);
+
+            transition: 0.3s;
+        }
+
+        .boton:hover {
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 15px 40px rgba(255,193,7,0.4);
+        }
+
+        /* =====================================================
+           SECCIONES
+        ===================================================== */
+
+        section {
+            padding: 90px 7%;
+        }
+
+        .titulo-seccion {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .titulo-seccion span {
+            color: #ffd43b;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .titulo-seccion h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-top: 10px;
+        }
+
+        .titulo-seccion p {
+            margin-top: 15px;
+            color: #b8c8d8;
+        }
+
+        /* =====================================================
+           RETO
+        ===================================================== */
+
+        .reto {
+            background: #091827;
+        }
+
+        .reto-grid {
+            max-width: 1100px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.06);
+
+            border: 1px solid rgba(255,255,255,0.1);
+
+            border-radius: 25px;
+
+            padding: 30px;
+
+            backdrop-filter: blur(10px);
+
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(255,212,59,0.5);
+        }
+
+        .card h3 {
+            color: #ffd43b;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        /* =====================================================
+           FORMULARIO CALCULADORA
+        ===================================================== */
+
+        .campo {
+            margin-bottom: 18px;
+        }
+
+        .campo label {
+            display: block;
+            margin-bottom: 8px;
+            color: #dbe8f5;
+            font-weight: bold;
+        }
+
+        .campo input {
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            border: 2px solid transparent;
+
+            background: #102538;
+
+            color: white;
+
+            font-size: 1rem;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        .campo input:focus {
+            border-color: #ffd43b;
+        }
+
+        .botones {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+        .btn-calcular {
+            border: none;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            background: #0ea5e9;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .btn-calcular:hover {
+            background: #0284c7;
+            transform: translateY(-3px);
+        }
+
+        .btn-principal {
+            background: #ffd43b;
+            color: #07111f;
+        }
+
+        .btn-principal:hover {
+            background: #ffbf00;
+        }
+
+        /* =====================================================
+           RESULTADOS
+        ===================================================== */
+
+        .resultado {
+            margin-top: 25px;
+
+            min-height: 150px;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            background: rgba(0,0,0,0.25);
+
+            border-radius: 18px;
+
+            padding: 25px;
+        }
+
+        .resultado .numero {
+            font-size: 3rem;
+
+            font-weight: 900;
+
+            color: #ffd43b;
+
+            margin: 10px 0;
+        }
+
+        .formula {
+            color: #a9bfd4;
+            font-size: 0.95rem;
+        }
+
+        /* =====================================================
+           PISTA
+        ===================================================== */
+
+        .pista {
+            margin-top: 35px;
+
+            height: 130px;
+
+            border-radius: 20px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    #cbd5e1 0px,
+                    #cbd5e1 40px,
+                    #94a3b8 40px,
+                    #94a3b8 45px
+                );
+        }
+
+        .linea-pista {
+            position: absolute;
+
+            top: 50%;
+
+            left: 0;
+
+            width: 100%;
+
+            border-top: 5px dashed white;
+        }
+
+        .atleta {
+            position: absolute;
+
+            left: 10px;
+
+            top: 43%;
+
+            font-size: 3rem;
+
+            transition: left 1s ease;
+
+            filter: drop-shadow(0 5px 4px rgba(0,0,0,0.3));
+        }
+
+        /* =====================================================
+           GEOGEBRA
+        ===================================================== */
+
+        .geogebra {
+            background: #07111f;
+        }
+
+        .contenedor-iframe {
+            max-width: 1200px;
+
+            margin: auto;
+
+            background: #ffffff;
+
+            padding: 10px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 20px 70px rgba(0,0,0,0.4);
+
+            overflow: hidden;
+        }
+
+        .contenedor-iframe iframe {
+            display: block;
+
+            width: 100%;
+
+            height: 650px;
+
+            border: none;
+
+            border-radius: 15px;
+        }
+
+        /* =====================================================
+           GOOGLE FORMS
+        ===================================================== */
+
+        .laboratorio {
+            background: #091827;
+        }
+
+        .formulario-google {
+            max-width: 850px;
+
+            margin: auto;
+
+            background: white;
+
+            padding: 10px;
+
+            border-radius: 25px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 70px rgba(0,0,0,0.4);
+        }
+
+        .formulario-google iframe {
+            width: 100%;
+
+            min-height: 800px;
+
+            border: none;
+        }
+
+        /* =====================================================
+           DESAFIO
+        ===================================================== */
+
+        .final {
+            text-align: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #173b61,
+                    #07111f 70%
+                );
+        }
+
+        .medalla {
+            font-size: 6rem;
+
+            animation: medalla 2s ease-in-out infinite;
+        }
+
+        @keyframes medalla {
+
+            0%,100% {
+                transform: rotate(-5deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(5deg) scale(1.08);
+            }
+        }
+
+        .final h2 {
+            font-size: clamp(2rem,5vw,4rem);
+
+            margin: 20px 0;
+
+            color: #ffd43b;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            text-align: center;
+
+            padding: 30px;
+
+            background: #030b15;
+
+            color: #9db1c5;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width: 800px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .reto-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .botones {
+                grid-template-columns: 1fr;
+            }
+
+            .anillos {
+                font-size: 3rem;
+            }
+
+            .contenedor-iframe iframe {
+                height: 550px;
+            }
+        }
+
+        @media(max-width: 500px) {
+
+            section {
+                padding: 65px 20px;
+            }
+
+            .hero {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .contenedor-iframe {
+                padding: 5px;
+            }
+
+            .contenedor-iframe iframe {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVEGACIÓN
+    ====================================================== -->
+
+    <nav>
+
+        <div class="logo">
+            🏆 MATH & FÍSICA CUP
+        </div>
+
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#reto">Reto</a></li>
+            <li><a href="#geogebra">GeoGebra</a></li>
+            <li><a href="#laboratorio">Laboratorio</a></li>
+        </ul>
+
+    </nav>
+
+
+    <!-- =====================================================
+         INICIO
+    ====================================================== -->
+
+    <header class="hero" id="inicio">
+
+        <div class="anillos">
+            🟦 🟨 🟥 🟩
+        </div>
+
+        <h1>
+            Olimpiadas<br>
+            del Movimiento
+        </h1>
+
+        <p>
+            Bienvenidos al desafío de velocidad, aceleración
+            y posición. Experimenta, calcula y demuestra tus
+            conocimientos de física.
+        </p>
+
+        <a href="#reto" class="boton">
+            🚀 COMENZAR EL RETO
+        </a>
+
+    </header>
+
+
+    <!-- =====================================================
+         RETO
+    ====================================================== -->
+
+    <section class="reto" id="reto">
+
+        <div class="titulo-seccion">
+
+            <span>🏃 Etapa 1</span>
+
+            <h2>Reto del Atleta</h2>
+
+            <p>
+                Introduce las constantes del movimiento
+                y realiza tus cálculos.
+            </p>
+
+        </div>
+
+
+        <div class="reto-grid">
+
+            <!-- FORMULARIO -->
+
+            <div class="card">
+
+                <h3>⚙️ Datos del movimiento</h3>
+
+                <div class="campo">
+
+                    <label>
+                        Posición inicial x₀ (m)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="posicionInicial"
+                        value="0"
+                        step="any"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Velocidad inicial v₀ (m/s)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="velocidadInicial"
+                        value="10"
+                        step="any"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Aceleración a (m/s²)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="aceleracion"
+                        value="0"
+                        step="any"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Tiempo t (s)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="tiempo"
+                        value="5"
+                        step="any"
+                    >
+
+                </div>
+
+
+                <div class="botones">
+
+                    <button
+                        class="btn-calcular btn-principal"
+                        onclick="calcularPosicion()"
+                    >
+                        📍 Posición
+                    </button>
+
+                    <button
+                        class="btn-calcular"
+                        onclick="calcularVelocidad()"
+                    >
+                        ⚡ Velocidad
+                    </button>
+
+                    <button
+                        class="btn-calcular"
+                        onclick="calcularDistancia()"
+                    >
+                        🏃 Distancia
+                    </button>
+
+                    <button
+                        class="btn-calcular"
+                        onclick="calcularTodo()"
+                    >
+                        🏆 Calcular todo
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTADOS -->
+
+            <div class="card">
+
+                <h3>📊 Resultado</h3>
+
+                <div class="resultado" id="resultado">
+
+                    <p>
+                        Introduce los datos y selecciona
+                        una opción.
+                    </p>
+
+                    <div class="numero">
+                        🏃
+                    </div>
+
+                    <div class="formula">
+                        x = x₀ + v₀t + ½at²
+                    </div>
+
+                </div>
+
+
+                <div class="pista">
+
+                    <div class="linea-pista"></div>
+
+                    <div class="atleta" id="atleta">
+                        🏃
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         GEOGEBRA
+    ====================================================== -->
+
+    <section class="geogebra" id="geogebra">
+
+        <div class="titulo-seccion">
+
+            <span>📐 Etapa 2</span>
+
+            <h2>Arena GeoGebra</h2>
+
+            <p>
+                Explora y comprueba visualmente el comportamiento
+                del movimiento.
+            </p>
+
+        </div>
+
+
+        <div class="contenedor-iframe">
+
+            <iframe
+                scrolling="no"
+                title="Ej_3 Simulador de MRU"
+                src="https://www.geogebra.org/material/iframe/id/mcNKdKVy/width/1366/height/675/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false"
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         GOOGLE FORMS
+    ====================================================== -->
+
+    <section class="laboratorio" id="laboratorio">
+
+        <div class="titulo-seccion">
+
+            <span>📝 Etapa 3</span>
+
+            <h2>Laboratorio</h2>
+
+            <p>
+                Responde las preguntas relacionadas con
+                el laboratorio realizado en clase.
+            </p>
+
+        </div>
+
+
+        <div class="formulario-google">
+
+            <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSdIVATG6T7oRaJICH_Ps-8O0FvvTfqGWzqbWyQa1hOfzUIxsA/viewform?embedded=true"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0">
+                Cargando…
+            </iframe>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINAL
+    ====================================================== -->
+
+    <section class="final">
+
+        <div class="medalla">
+            🥇
+        </div>
+
+        <h2>
+            ¡Reto completado!
+        </h2>
+
+        <p>
+            Has llegado al final de las Olimpiadas
+            del Movimiento.
+        </p>
+
+        <br>
+
+        <a href="#inicio" class="boton">
+            🔝 Volver al inicio
+        </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            🏆 Olimpiadas del Movimiento 2026
+        </p>
+
+        <p>
+            Actividad educativa de Física
+        </p>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        function obtenerDatos() {
+
+            const x0 = parseFloat(
+                document.getElementById("posicionInicial").value
+            );
+
+            const v0 = parseFloat(
+                document.getElementById("velocidadInicial").value
+            );
+
+            const a = parseFloat(
+                document.getElementById("aceleracion").value
+            );
+
+            const t = parseFloat(
+                document.getElementById("tiempo").value
+            );
+
+            return {
+                x0,
+                v0,
+                a,
+                t
+            };
+        }
+
+
+        function mostrarResultado(
+            titulo,
+            valor,
+            unidad,
+            formula
+        ) {
+
+            const resultado =
+                document.getElementById("resultado");
+
+            resultado.innerHTML = `
+
+                <p>${titulo}</p>
+
+                <div class="numero">
+                    ${valor.toFixed(2)} ${unidad}
+                </div>
+
+                <div class="formula">
+                    ${formula}
+                </div>
+
+            `;
+        }
+
+
+        function moverAtleta(posicion) {
+
+            const atleta =
+                document.getElementById("atleta");
+
+            /*
+                Limitamos la posición para evitar
+                que el atleta salga de la pista.
+            */
+
+            let porcentaje = posicion;
+
+            if (porcentaje < 0)
+                porcentaje = 0;
+
+            if (porcentaje > 90)
+                porcentaje = 90;
+
+            atleta.style.left =
+                porcentaje + "%";
+        }
+
+
+        /* =====================================================
+           POSICIÓN
+        ====================================================== */
+
+        function calcularPosicion() {
+
+            const {
+                x0,
+                v0,
+                a,
+                t
+            } = obtenerDatos();
+
+            const x =
+                x0 +
+                v0 * t +
+                0.5 * a * t * t;
+
+            mostrarResultado(
+                "📍 Posición del móvil",
+                x,
+                "m",
+                "x = x₀ + v₀t + ½at²"
+            );
+
+            moverAtleta(
+                Math.abs(x) % 100
+            );
+        }
+
+
+        /* =====================================================
+           VELOCIDAD
+        ====================================================== */
+
+        function calcularVelocidad() {
+
+            const {
+                v0,
+                a,
+                t
+            } = obtenerDatos();
+
+            const v =
+                v0 + a * t;
+
+            mostrarResultado(
+                "⚡ Velocidad instantánea",
+                v,
+                "m/s",
+                "v = v₀ + at"
+            );
+
+        }
+
+
+        /* =====================================================
+           DISTANCIA
+        ====================================================== */
+
+        function calcularDistancia() {
+
+            const {
+                v0,
+                a,
+                t
+            } = obtenerDatos();
+
+            const distancia =
+                Math.abs(
+                    v0 * t +
+                    0.5 * a * t * t
+                );
+
+            mostrarResultado(
+                "🏃 Distancia recorrida",
+                distancia,
+                "m",
+                "d = |v₀t + ½at²|"
+            );
+
+        }
+
+
+        /* =====================================================
+           CALCULAR TODO
+        ====================================================== */
+
+        function calcularTodo() {
+
+            const {
+                x0,
+                v0,
+                a,
+                t
+            } = obtenerDatos();
+
+            const x =
+                x0 +
+                v0 * t +
+                0.5 * a * t * t;
+
+            const v =
+                v0 + a * t;
+
+            const distancia =
+                Math.abs(
+                    v0 * t +
+                    0.5 * a * t * t
+                );
+
+            const resultado =
+                document.getElementById("resultado");
+
+            resultado.innerHTML = `
+
+                <p>🏆 Resultados del movimiento</p>
+
+                <div style="
+                    margin-top:15px;
+                    line-height:2;
+                    text-align:left;
+                ">
+
+                    📍 Posición:
+                    <strong>
+                        ${x.toFixed(2)} m
+                    </strong>
+                    <br>
+
+                    ⚡ Velocidad:
+                    <strong>
+                        ${v.toFixed(2)} m/s
+                    </strong>
+                    <br>
+
+                    🏃 Distancia:
+                    <strong>
+                        ${distancia.toFixed(2)} m
+                    </strong>
+
+                </div>
+
+            `;
+
+            moverAtleta(
+                Math.abs(x) % 100
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
