@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Geométrico en Malibú</title>
+    <style>
+        /* Importando fuentes divertidas y legibles desde Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            /* Gradiente animado con colores de playa: arena, atardecer y océano */
+            background: linear-gradient(-45deg, #FFB75E, #FF758C, #00C9FF, #92FE9D);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Animación fluida del fondo */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Contenedor principal */
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Título flotante */
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #fff;
+            font-size: 3.5em;
+            text-shadow: 3px 3px 0px #FF758C, 6px 6px 0px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Animación flotante para el título */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Tarjeta de Reglas */
+        .rules-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-bottom: 8px solid #FF758C;
+            margin-bottom: 40px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decoración de palmera como marca de agua en la tarjeta */
+        .rules-card::before {
+            content: '🌴';
+            font-size: 100px;
+            position: absolute;
+            top: -20px;
+            right: -10px;
+            opacity: 0.15;
+            transform: rotate(15deg);
+            pointer-events: none;
+        }
+
+        .rules-card h2 {
+            font-family: 'Fredoka One', cursive;
+            color: #FF758C;
+            margin-top: 0;
+            font-size: 2.2em;
+            text-align: center;
+        }
+
+        .rules-list {
+            list-style: none;
+            padding: 0;
+            font-size: 1.2em;
+            color: #444;
+        }
+
+        .rules-list li {
+            margin-bottom: 20px;
+            padding-left: 45px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Icono de surfista para las viñetas */
+        .rules-list li::before {
+            content: '🏄‍♂️';
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-size: 1.5em;
+        }
+
+        .highlight {
+            color: #E65100;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        /* Contenedor del GeoGebra para que parezca enmarcado */
+        .geogebra-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 6px solid #00C9FF;
+            display: inline-block;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        /* Hace que el iframe sea responsivo si los estudiantes usan pantallas pequeñas */
+        iframe {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        /* Animación del sol de fondo */
+        .sun {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 120px;
+            height: 120px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 60px #FFD700;
+            animation: pulse 4s infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 40px #FFD700; }
+            100% { transform: scale(1.1); box-shadow: 0 0 80px #FFD700; }
+        }
+
+        /* Adaptabilidad a dispositivos móviles */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            .rules-card { padding: 20px; }
+            .sun { width: 80px; height: 80px; top: 20px; left: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sol animado de fondo -->
+    <div class="sun"></div>
+    
+    <div class="container">
+        <!-- Título principal de la actividad -->
+        <h1>¡Misión Malibú! 🌊</h1>
+        
+        <!-- Tarjeta de instrucciones -->
+        <div class="rules-card">
+            <h2>Reglas de la Playa</h2>
+            <ul class="rules-list">
+                <li><strong>Tu misión:</strong> Observa la gráfica de abajo y ubica con precisión los puntos que te pide la actividad. ¡La exactitud es clave!</li>
+                <li><strong>Recompensa:</strong> ¡Cada punto bien colocado equivale a <span class="highlight">1 punto directo a tu nota</span>! Calcula bien tu jugada.</li>
+                <li><strong>Constancia:</strong> Sigue intentando y ubicando puntos hasta finalizar la actividad completa. ¡Atrapa todas las olas y asegura tu 10!</li>
+            </ul>
+        </div>
+
+        <!-- Contenedor del elemento interactivo -->
+        <div class="geogebra-container">
+            <!-- Aquí está tu código embebido exacto -->
+            <iframe scrolling="no" title="Elementos de un polígono" src="https://www.geogebra.org/material/iframe/id/tuc4kdem/width/800/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="800px" height="500px" style="border:0px;"> </iframe>
+        </div>
+    </div>
+</body>
+</html>
