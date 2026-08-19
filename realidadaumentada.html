@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Realidad Aumentada</title>
+    
+    <!-- Importar la librería model-viewer -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 1.6rem;
+            color: #1a73e8;
+            margin-bottom: 5px;
+        }
+        p {
+            font-size: 0.95rem;
+            color: #5f6368;
+        }
+        model-viewer {
+            width: 100%;
+            height: 400px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        /* Estilo del botón de Realidad Aumentada */
+        #ar-button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 10px rgba(26, 115, 232, 0.4);
+            transition: background-color 0.2s;
+            z-index: 10;
+        }
+        #ar-button:hover {
+            background-color: #1557b0;
+        }
+        footer {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #80868b;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Realidad Aumentada en Clase</h1>
+            <p>Visualiza el modelo 3D interactivo o actívalo en tu espacio</p>
+        </header>
+
+        <!-- Visor 3D y AR -->
+        <model-viewer 
+            src="ejemplo1.glb" 
+            ar 
+            ar-modes="scene-viewer webxr quick-look" 
+            camera-controls 
+            tone-mapping="neutral" 
+            shadow-intensity="1" 
+            alt="Modelo 3D en Realidad Aumentada">
+            
+            <button slot="ar-button" id="ar-button">
+                Ver en tu espacio (AR)
+            </button>
+        </model-viewer>
+
+        <footer>
+            <p>💡 En dispositivos móviles, presiona el botón azul para abrir la cámara y ubicar el objeto en una superficie.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
